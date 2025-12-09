@@ -163,15 +163,30 @@ export default class Game {
     return row.filter((v) => v !== 0);
   }
   merge(row) {
-    for (let i = 0; i < row.length - 1; i++) {
-      if (row[i] !== 0 && row[i] === row[i + 1]) {
-        row[i] *= 2;
-        this.score += row[i];
-        row[i + 1] = 0;
+    const arr = row.filter((v) => v !== 0);
+
+    // 2 — злиття
+    const merged = [];
+    let i = 0;
+
+    while (i < arr.length) {
+      if (arr[i] === arr[i + 1]) {
+        const sum = arr[i] * 2;
+
+        merged.push(sum);
+        this.score += sum;
+        i += 2;
+      } else {
+        merged.push(arr[i]);
+        i++;
       }
     }
 
-    return row;
+    while (merged.length < 4) {
+      merged.push(0);
+    }
+
+    return merged;
   }
 
   moveRowLeft(row) {
